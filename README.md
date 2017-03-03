@@ -91,11 +91,45 @@ Using rectified binary images, lane detection can be carried out. Along the X ax
   <img src="./output_images/7_lane_detection_binary.png" width="500">
 </p>
 
-Between the fitting lines of the two equations, detected lanes were marked as shown in images below.
+Between the fitting lines of the two equations, detected lane was marked as shown in images below.
 
 <p align="center">
   <img src="./output_images/8_lane_detection_process.png" width="800">
 </p>
+
+
+Lane marking
+---
+
+Detected lane was unwarped using reversed perspective transform, and marked on the camera images like below.
+
+<p align="center">
+  <img src="./output_images/9_lane_marking.png" width="800">
+</p>
+
+
+Curvature and vehicle position
+---
+
+Considering the real length of the pixel,
+```
+ym_per_pix = 30/720 # meter
+xm_per_pix = 3.7/700 # meter
+```
+the lane pixels found in the previous stage were transformed to the real world scale, and the quadratic equations of the lane lines were derived using transformed pixels.
+```
+left_fit_cr = np.polyfit(lefty*ym_per_pix, leftx*xm_per_pix, 2)
+right_fit_cr = np.polyfit(righty*ym_per_pix, rightx*xm_per_pix, 2)
+```
+Curvature of the each line at the base y was calculated, using the equation below.
+```
+left_curverad = ((1 + (2*left_fit_cr[0]*image_y_size*ym_per_pix + left_fit_cr[1])**2)**1.5) / (2*left_fit_cr[0])
+right_curverad = ((1 + (2*right_fit_cr[0]*image_y_size*ym_per_pix + right_fit_cr[1])**2)**1.5) / (2*right_fit_cr[0])
+```
+Vehicle position can be indicated by the offset distance from the center of the lane. Assuming that the camera is at the center of the vehicle, I calculated the offset value using the base points of the detected lane lines.
+```
+x_offset = ((fit_leftx_base + fit_rightx_base)/2 - image_x_size/2 ) * xm_per_pix
+```
 
 
 Sanity check
@@ -105,34 +139,6 @@ Sanity check
 * Check variation of base from the previous one (1 meter) - Reset base and do blind fitting again
 * Update fitting result with previous one using certain factor - 0.6? * new fitting + 0.4 * prev fitting
 
-Curvature and vehicle position
----
-
-* calculation method
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
-
-```
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
-
-```
-
-Lane marking
----
-
-* lane marking image
-
-<p align="center">
-  <img src="./output_images/9_lane_marking.png" width="800">
-</p>
 
 Result (Video)
 ---
