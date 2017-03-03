@@ -1,5 +1,4 @@
 ## Advanced Lane Finding
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 The goals / steps of this project are the following:
 
@@ -12,10 +11,11 @@ The goals / steps of this project are the following:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
+
 Camera calibration
 ---
 
-I calibrated camera with chess board images, using `cv2.calibrateCamera()` and `cv2.undistort()` functions. Here is the result of calibration.
+I calibrated camera with chess board images, using `cv2.calibrateCamera()` and `cv2.undistort()` functions. Here is the result of calibration, undistorted chess board images and lane images.
 
 * Chess board images
 
@@ -29,42 +29,34 @@ I calibrated camera with chess board images, using `cv2.calibrateCamera()` and `
   <img src="./output_images/2_calibration_road.png" width="800">
 </p>
 
+
 Color transform
 ---
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I applied four factors for my filter to generate a binary image.
 
-* color transform image
+* Sobel threshold X
+* Sobel threshold Y
+* Gradient magnitude
+* Gradient direction
+
+The parameters of the filter were tuned using interactive python interface. The result of color transform is shown below. In the image, two lane lines are clearly marked.
 
 <p align="center">
   <img src="./output_images/3_color_transform.png" width="500">
 </p>
 
+
 Perspective transform
 ---
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
+To get appropriate matrix for the perspective transform with `cv2.getPerspectiveTransform()`, I used images of the straight lines. Using interactive python interface, I marked four corners to make source points of the perspective transform. The result is shown in the image below.
 
 <p align="center">
   <img src="./output_images/4_perspective_finding.png" width="500">
 </p>
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
-
-```
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
-
-```
-This resulted in the following source and destination points:
+Then I selected destination points which can transform source points to the points of straight lines. This resulted in the following source and destination points.
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
@@ -73,33 +65,38 @@ This resulted in the following source and destination points:
 | 1042, 685     | 960, 700      |
 | 696, 456      | 960, 20        |
 
+A matrix for perspective transform was derived using `cv2.warpPerspective()`, and here is the result of the perspective transform of the test images. In the images, birds-eye view of the straight lines were successfully obtained.
+
 <p align="center">
   <img src="./output_images/5_unwarp_lane.png" width="650">
 </p>
 
-Rectified binary lane image - birds-eye view
+
+Rectified binary image
 ---
 
-* rectified binary lane image
+Applying all (camera calibration, color transform, and perspective transform), rectified binary images to detect lane lines were generated.
 
 <p align="center">
   <img src="./output_images/6_unwarp_binary_lane.png" width="650">
 </p>
 
+
 Lane detection
 ---
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
+Using rectified binary images, lane detection can be carried out. Along the X axis, a histogram of the number of the pixels was generated and two peaks of the histogram was selected for the base positions to find lane lines. The rectangle kernel (green rectangles) was extended toward y axis, starting from the base positions. The kernels were following the dense clusters of the pixels, and the pixels within the kernel were marked (red and blue pixels). Finally, quadratic polynomial fitting was done using the marked pixels (yellow lines), and the quadratic equations of the left and right lanes were obtained.
 
 <p align="center">
   <img src="./output_images/7_lane_detection_binary.png" width="500">
 </p>
 
-* lane detection process
+Between the fitting lines of the two equations, detected lanes were marked as shown in images below.
 
 <p align="center">
   <img src="./output_images/8_lane_detection_process.png" width="800">
 </p>
+
 
 Sanity check
 ---
@@ -142,13 +139,13 @@ Result (Video)
 
 * output result image
 
-* project video
+* project video - https://youtu.be/Oa-rTN658SM
 
-* challenge video
+* challenge video - https://youtu.be/ga6GAuoI02M
 
-* harder challenge video
+* harder challenge video - https://youtu.be/r6K399jBfhk
 
-Discussion?
+Discussion
 ---
 
 If you're feeling ambitious (again, totally optional though), don't stop there!  We encourage you to go out and take video of your own, calibrate your camera and show us how you would implement this project from scratch!
