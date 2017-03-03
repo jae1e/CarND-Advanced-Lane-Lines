@@ -33,8 +33,9 @@ I calibrated camera with chess board images, using `cv2.calibrateCamera()` and `
 Color transform
 ---
 
-I applied four factors for my filter to generate a binary image.
+I applied five factors for my filter to generate a binary image.
 
+* RGB minimum values
 * Sobel threshold X
 * Sobel threshold Y
 * Gradient magnitude
