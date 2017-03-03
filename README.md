@@ -10,47 +10,63 @@ Camera calibration
 
 * chess board image
 
-<img src="./output_images/1_calibration_chess.png" width="800">
+<p align="center">
+  <img src="./output_images/1_calibration_chess.png" width="800">
+</p>
 
 * lane image - distortion correction
 
-<img src="./output_images/2_calibration_road.png" width="800">
+<p align="center">
+  <img src="./output_images/2_calibration_road.png" width="800">
+</p>
 
 Color transform
 ---
 
 * color transform image
 
-<img src="./output_images/3_color_transform.png" width="500">
+<p align="center">
+  <img src="./output_images/3_color_transform.png" width="500">
+</p>
 
 Perspective transform
 ---
 
 * perspective square finding image
 
-<img src="./output_images/4_perspective_finding.png" width="500">
+<p align="center">
+  <img src="./output_images/4_perspective_finding.png" width="500">
+</p>
 
 * unwarped image
 
-<img src="./output_images/5_unwarp_lane.png" width="650">
+<p align="center">
+  <img src="./output_images/5_unwarp_lane.png" width="650">
+</p>
 
 Rectified binary lane image - birds-eye view
 ---
 
 * rectified binary lane image
 
-<img src="./output_images/6_unwarp_binary_lane.png" width="650">
+<p align="center">
+  <img src="./output_images/6_unwarp_binary_lane.png" width="650">
+</p>
 
 Lane detection
 ---
 
 * lane detection image
 
-<img src="./output_images/7_lane_detection_binary.png" width="500">
+<p align="center">
+  <img src="./output_images/7_lane_detection_binary.png" width="500">
+</p>
 
 * lane detection process
 
-<img src="./output_images/8_lane_detection_process.png" width="800">
+<p align="center">
+  <img src="./output_images/8_lane_detection_process.png" width="800">
+</p>
 
 Curvature and vehicle position
 ---
@@ -62,7 +78,9 @@ Lane marking
 
 * lane marking image
 
-<img src="./output_images/9_lane_marking.png" width="800">
+<p align="center">
+  <img src="./output_images/9_lane_marking.png" width="800">
+</p>
 
 Result (Video)
 ---
