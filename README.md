@@ -150,7 +150,7 @@ Result (Video)
 Applying all methods above, lane detection was carried out in the various videos.
 
 <p align="center">
-  <img src="./output_images/8_lane_detection_process.png" width="800">
+  <img src="./output_images/video_capture.png" width="800">
 </p>
 
 * [Project video](https://youtu.be/Oa-rTN658SM)
@@ -163,4 +163,4 @@ Applying all methods above, lane detection was carried out in the various videos
 Discussion
 ---
 
-If you're feeling ambitious (again, totally optional though), don't stop there!  We encourage you to go out and take video of your own, calibrate your camera and show us how you would implement this project from scratch!
+Lane detection was working well in the project video, but not in the challenge video and the harder challenge video. There are few reasons for this. First, color transform was only optimized using images from the project video. The other two videos have more features which can distract detection, different color distribution, and sophisticated curves. Also, considering human's lane detection, we don't find lane lines only with the images. We find lane lines in the area where they should be - we are not distracted by the horizontal lines on the road while finding lane lines because we can distinguish them using our experience and knowledge. To improve lane detection, machine learning can be a good solution to track the flow of the features, which helps dectetion system decide what to take and what to ignore.
