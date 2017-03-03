@@ -101,6 +101,13 @@ The code for my perspective transform includes a function called `warper()`, whi
   <img src="./output_images/8_lane_detection_process.png" width="800">
 </p>
 
+Sanity check
+---
+
+* Check variation of radius from the previous one (0.02 to 50.0?) - Use previous fitting result
+* Check variation of base from the previous one (1 meter) - Reset base and do blind fitting again
+* Update fitting result with previous one using certain factor - 0.6? * new fitting + 0.4 * prev fitting
+
 Curvature and vehicle position
 ---
 
