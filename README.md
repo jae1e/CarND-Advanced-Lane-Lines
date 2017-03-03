@@ -86,6 +86,7 @@ Lane detection
 ---
 
 Using rectified binary images, lane detection can be carried out. Along the X axis, a histogram of the number of the pixels was generated and two peaks of the histogram was selected for the base positions to find lane lines. The rectangle kernel (green rectangles) was extended toward y axis, starting from the base positions. The kernels were following the dense clusters of the pixels, and the pixels within the kernel were marked (red and blue pixels). Finally, quadratic polynomial fitting was done using the marked pixels (yellow lines), and the quadratic equations of the left and right lanes were obtained.
+Lane detection in the video can be done fastly. Considering that the video is the flow of images, lane lines are changing conitnuously through the images, so lane line pixels can be searched around the detected lines from the previous image. But if lane detection has problem in the previous image, this method will return bad searching area. To prevent this, sanity check of the base points is needed.
 
 <p align="center">
   <img src="./output_images/7_lane_detection_binary.png" width="500">
@@ -132,24 +133,32 @@ x_offset = ((fit_leftx_base + fit_rightx_base)/2 - image_x_size/2 ) * xm_per_pix
 ```
 
 
-Sanity check
+Sanity check and continuous update using interpolation
 ---
 
-* Check variation of radius from the previous one (0.02 to 50.0?) - Use previous fitting result
-* Check variation of base from the previous one (1 meter) - Reset base and do blind fitting again
-* Update fitting result with previous one using certain factor - 0.6? * new fitting + 0.4 * prev fitting
+In the video, the lane is changing smoothly through the image frames. In this regard, sanity check and interpolation of the fitting result were applied.
+
+* Check variation of the line curvature. If the new curvature is too small or big compared to the curvature of the previous image, use previous fitting result.
+* Check variation of the fitting line's base point. If the new base point is too far away from the previous one, reset base point and find 
+* Update fitting result using interpolation with the previous fitting result, to make the change of the fitting line smooth.
+* Apply sanity check and interpolation to the left and right lines separately.
 
 
 Result (Video)
 ---
 
-* output result image
+Applying all methods above, lane detection was carried out in the various videos.
 
-* project video - https://youtu.be/Oa-rTN658SM
+<p align="center">
+  <img src="./output_images/8_lane_detection_process.png" width="800">
+</p>
 
-* challenge video - https://youtu.be/ga6GAuoI02M
+* [Project video](https://youtu.be/Oa-rTN658SM)
 
-* harder challenge video - https://youtu.be/r6K399jBfhk
+* [Challenge video](https://youtu.be/ga6GAuoI02M)
+
+* [Harder challenge video](https://youtu.be/r6K399jBfhk)
+
 
 Discussion
 ---
