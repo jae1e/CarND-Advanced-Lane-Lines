@@ -154,11 +154,11 @@ Applying all methods above, lane detection was carried out in the various videos
   <img src="./output_images/video_capture.png" width="800">
 </p>
 
-* [Project video](https://youtu.be/Oa-rTN658SM)
+* [Project video](https://youtu.be/br-fN8EgXPk)
 
-* [Challenge video](https://youtu.be/ga6GAuoI02M)
+* [Challenge video](https://youtu.be/QXm88U4mZkc)
 
-* [Harder challenge video](https://youtu.be/r6K399jBfhk)
+* [Harder challenge video](https://youtu.be/TPqEaDasN8E)
 
 
 Discussion
